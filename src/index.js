@@ -60,8 +60,10 @@ export default class {
       payload: regexp,
       func: () => {
         const iter = (passedTime = 0) => setTimeout(() => {
-          if (this.matchOutput(regexp)) {
+          const matches = this.matchOutput(regexp);
+          if (matches) {
             log(`output matched with '${regexp}'`);
+            cb(matches);
             this.executeNextAction();
           } else {
             log(`output does not match with '${regexp}'`);
@@ -86,13 +88,11 @@ export default class {
 
   matchOutput(regexp) {
     let line;
-    log(this.lines);
     while (line = this.nextLine()) {
-      const matches = line.match(regexp);
+      const matches = regexp.exec(line);
       if (matches) {
-        return true;
+        return matches;
       }
-      // cb(matches);
     }
   }
 
