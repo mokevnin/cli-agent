@@ -7,7 +7,6 @@ export default class {
   state = 'pending';
   msg = '';
   timeStep = 500;
-  timeout = 2000;
   lines = [];
   linesPointer = 0;
   chain = [];
@@ -15,6 +14,7 @@ export default class {
 
   constructor(programm, options = {}) {
     this.programm = programm;
+    this.timeout = options.timeout || 2000;
   }
 
   hasNewLine() {
