@@ -12,6 +12,8 @@ test('success', async () => {
     .wait(/year is (\d+)/, (matches) => {
       year = matches[1];
     })
+    .send(() => `${year}\n`)
+    .wait(/good 2014/i)
     .start();
   expect(result).toBe(0);
   expect(year).toBe('2014');

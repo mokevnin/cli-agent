@@ -100,14 +100,14 @@ export default class {
     return null;
   }
 
-  send(str) {
-    log(`send: ${str}`);
+  send(mix) {
+    log(`send: ${mix}`);
     this.chain.push({
       type: 'send',
-      payload: str,
+      payload: mix,
       func: () => {
-        log(`execute send: ${str}`);
-        this.term.write(str);
+        log(`execute send: ${mix}`);
+        this.term.write(typeof mix === 'function' ? mix() : mix);
         setImmediate(() => this.executeNextAction());
       },
     });
