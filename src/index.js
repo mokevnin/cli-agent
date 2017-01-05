@@ -5,6 +5,7 @@ import log from './logger';
 
 export default class {
   state = 'pending';
+  msg = '';
   timeStep = 500;
   timeout = 2000;
   lines = [];
@@ -70,7 +71,8 @@ export default class {
             if (passedTime < this.timeout) {
               iter(passedTime + this.timeStep);
             } else {
-              this.reject('REJECTED!!!');
+              const msg = `Waiting '${regexp}' was too long`;
+              this.stop(msg);
             }
           }
         }, this.timeStep);
@@ -82,7 +84,8 @@ export default class {
     return this;
   }
 
-  stop() {
+  stop(msg) {
+    this.msg = msg;
     this.term.destroy();
   }
 
@@ -94,6 +97,7 @@ export default class {
         return matches;
       }
     }
+    return null;
   }
 
   send(str) {
@@ -137,7 +141,7 @@ export default class {
         if (this.state === 'fulfilled') {
           this.resolve(code);
         } else {
-          this.reject(code);
+          this.reject(this.msg);
         }
       });
 

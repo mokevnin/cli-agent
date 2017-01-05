@@ -3,7 +3,7 @@
 import path from 'path';
 import CLIAgent from '../src';
 
-test('Cli Agent', async () => {
+test('success', async () => {
   let year;
   const interaction = new CLIAgent(path.join(__dirname, 'fixtures', 'app.sh'));
   const result = await interaction.wait(/hello/i)
@@ -15,4 +15,16 @@ test('Cli Agent', async () => {
     .start();
   expect(result).toBe(0);
   expect(year).toBe('2014');
+});
+
+test('error', async () => {
+  const interaction = new CLIAgent(path.join(__dirname, 'fixtures', 'app.sh'), {
+    timeout: 600,
+  });
+  try {
+    await interaction.wait(/unknown/i).start();
+    throw new Error('fail');
+  } catch (e) {
+    // true
+  }
 });
