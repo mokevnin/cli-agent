@@ -18,7 +18,7 @@ export default class {
   }
 
   hasNewLine() {
-    return this.lines.length >= this.linesPointer;
+    return this.lines.length > this.linesPointer;
   }
 
   nextLine() {
@@ -108,7 +108,6 @@ export default class {
       func: () => {
         log(`execute send: ${str}`);
         this.term.write(str);
-        log('!!!!!!!')
         setImmediate(() => this.executeNextAction());
       },
     });
